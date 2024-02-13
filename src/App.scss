@@ -1,0 +1,108 @@
+@font-face {
+  font-family:'ALSHauss';
+  src:url(./assets/font/ALSHauss-Black.woff2);
+}
+
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+.diagram-container {
+  position: relative;
+  width: 533px;
+    height: 533px;
+}
+.circle,
+.outer-circle {
+  border: 2.35px solid #adadad;
+  width: 533px;
+  height: 533px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    // top: 25%;
+}
+.block {
+  width: 50%;
+  position: absolute;
+  left: 0;
+}
+.name {
+  font-family: "ALSHauss";
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 13.28px;
+  position: absolute;
+}
+.skill {
+  position: absolute;
+
+  width: 27.53px;
+  height: 27.53px;
+  border-radius: 50%;
+  background: #ffd4ad;
+}
+.role-circl {
+  background: #adadad;
+  border-radius: 50%;
+  width: 23.7px;
+  height: 23.7px;
+  top: -38.89px;
+  left: -572.69px;
+  position: absolute;
+  z-index: 9;
+}
+.role-circl.active {
+  background: #00a372;
+  &::after {
+    content: "";
+    width: 33.71px;
+    height: 33.71px;
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    border-radius: 50%;
+    border: 1px solid #00A372;
+  }
+}
+.min_circle,
+.inner-circle {
+  width: 256px;
+  height: 256px;
+  border: 2.35px solid #adadad;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 25%;
+}
+
+.role-circle {
+  /* styles for the role circles */
+}
+
+.role-circle.active {
+  /* styles for when the role circle is active */
+}
+
+.skill-circle {
+  /* styles for the skill circles */
+}
+
+.skill-circle.active {
+  /* styles for when the skill circle is active */
+}
