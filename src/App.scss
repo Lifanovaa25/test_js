@@ -52,6 +52,16 @@
   border-radius: 50%;
   background: #ffd4ad;
 }
+.skill_name {
+  color: #ADADAD;
+}
+.skill.active {
+  background: #FF7A00;
+
+  .skill_name{
+  color:  #3A3A3A;
+  }
+}
 .role-circl {
   background: #adadad;
   border-radius: 50%;
@@ -64,15 +74,17 @@
 }
 .role-circl.active {
   background: #00a372;
+  transition: all .8s;
   &::after {
     content: "";
     width: 33.71px;
     height: 33.71px;
     position: absolute;
-    top: -6px;
-    left: -6px;
+   top: -5px;
+    left: -5px;
     border-radius: 50%;
     border: 1px solid #00A372;
+    box-sizing: border-box;
   }
 }
 .min_circle,

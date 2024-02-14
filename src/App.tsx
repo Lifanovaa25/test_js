@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./App.scss";
 import RoleCircle from "./component/RoleCircle";
 import SkillCircle from "./component/SkillCircle";
 
+const calculateLineCoords = (a, b) => {
+  const aBox = a.getBoundingClientRect();
+  const bBox = b.getBoundingClientRect();
+
+  return {
+    x1: aBox.left + aBox.width / 2,
+    y1: aBox.top + aBox.height / 2,
+    x2: bBox.left + bBox.width / 2,
+    y2: bBox.top + bBox.height / 2,
+  };
+};
+
 const App = () => {
-  const yourData = [
+  const Data = [
     {
       name: "Финансовый аналитик",
       mainSkills: ["Excel", "SQL", "VBA", "1C"],
@@ -102,9 +114,22 @@ const App = () => {
     },
   ];
 
-  const [rolesData, setRolesData] = useState(yourData); // replace yourData with the data you provided
+  const [rolesData, setRolesData] = useState(Data); // replace Data with the data you provided
   const [activeRole, setActiveRole] = useState(null);
-  const [Item, mainSkills, otherSkills] = yourData;
+
+  const [lineCoords, setLineCoords] = useState({});
+  const rolesRef = useRef({});
+  const skillsRef = useRef({});
+  useEffect(() => {
+    if (activeRole) {
+  //     const coords = activeRole?.mainSkills.map(skill => {
+        console.log(rolesRef.current)
+        // return calculateLineCoords(rolesRef.current[activeRole.name], skillsRef.current[skill]);
+  //     }); console.log(coords)
+  //     setLineCoords(coords);
+    }
+
+  }, [activeRole]);
 
   function mapSkillsToProfessions(professions) {
     const skillsMap = {};
@@ -137,12 +162,14 @@ const App = () => {
 
     return Array.from(allSkills); // Преобразуем Set обратно в массив и возвращаем его
   }
-  const allSkills = mapSkillsToProfessions(yourData);
-  const prof = getUniqueSkills(yourData);
-  console.log(prof.length);
+  const allSkills = mapSkillsToProfessions(Data);
+  const prof = getUniqueSkills(Data);
+
   const handleRoleClick = (role) => {
     setActiveRole(role);
-    // Update rolesData to set the active state for the selected role
+    rolesRef.current[role.name] = role.name;
+    // skillsRef.current[role.name] = [role.name]
+    // console.log(skillsRef)
     const updatedRoles = rolesData.map((r) => ({
       ...r,
       isActive: r.name === role.name,
@@ -151,26 +178,33 @@ const App = () => {
   };
 
   return (
-    <div className="diagram-container">
-      <div className="inner-circle">
-        {rolesData.map((role, id) => (
-          <RoleCircle
-            key={role.name}
-            role={role}
-            i={id}
-            n={rolesData.length}
-            onRoleClick={handleRoleClick}
-          />
+    <>
+      {/* <svg className="lines" width="100%" height="100%">
+        {lineCoords?.map((coord, index) => (
+          <line key={index} {...coord} stroke="black" />
         ))}
-      </div>
-      <div className="outer-circle">
-        {rolesData
-          .flatMap((role) => role.mainSkills.concat(role.otherSkills))
-          .map((skill, index) => (
+      </svg> */}
+      <div className="diagram-container">
+        <div className="inner-circle">
+          {rolesData.map((role, id) => (
+            <RoleCircle
+              // ref={(el) => (rolesRef.current[role.name] = el)}
+
+              key={role.name}
+              role={role}
+              i={id}
+              n={rolesData.length}
+              onRoleClick={handleRoleClick}
+            />
+          ))}
+        </div>
+        <div className="outer-circle">
+          {/* {rolesData
+          .flatMap((role) => role.mainSkills.concat(role.otherSkills)) */}
+
+          {prof.map((skill, index) => (
             <SkillCircle
               i={index}
-              // n={(mainSkills?.concat(otherSkills)).length}
-              key={index}
               skill={skill}
               n={prof.length}
               isActive={
@@ -179,8 +213,9 @@ const App = () => {
               }
             />
           ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
