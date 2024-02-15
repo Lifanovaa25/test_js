@@ -32,6 +32,8 @@ const SkillCircle = ({ skill, isActive, i, n }) => {
   return (
     <>
       <div
+        ref={(el) => (skillsRef.current[skill] = el)}
+        
         style={{
           top: `${positionX(i, n, 533, 260)}px`,
           left: ` ${positionY(i, n, 533, 260)}px`,
@@ -39,7 +41,7 @@ const SkillCircle = ({ skill, isActive, i, n }) => {
         className={isActive ? "skill-circl skill active" : "skill-circl skill"}
       >
         <div
-          // ref={isActive ? (el) => (skillsRef.current[skill] = el):''}
+          // ref={(el) => (skillsRef.current[skill] = el)}
           className="name skill_name"
           style={{
             top: `${positionX(i, n, 100, 20)}px`,

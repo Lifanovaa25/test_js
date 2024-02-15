@@ -32,6 +32,8 @@ const RoleCircle = ({ role, onRoleClick, i, n }) => {
   return (
     <>
       <div
+          ref={(el) => (rolesRef.current[role.name] = el)}
+
         style={{
           top: `${positionX(i, n, 256, 122)}px`,
           left: ` ${positionY(i, n, 256, 122)}px`,
@@ -40,7 +42,7 @@ const RoleCircle = ({ role, onRoleClick, i, n }) => {
         onClick={() => onRoleClick(role)}
       >
         <div
-          ref={(el) => (rolesRef.current[role.name] = el)}
+          // ref={(el) => (rolesRef.current[role.name] = el)}
           className="name"
           style={{
             top: `${positionX(i, n, 110, 10)}px`,

@@ -121,14 +121,16 @@ const App = () => {
   const rolesRef = useRef({});
   const skillsRef = useRef({});
   useEffect(() => {
-    if (activeRole) {
+    // if (activeRole) {
   //     const coords = activeRole?.mainSkills.map(skill => {
-        console.log(rolesRef.current)
-        // return calculateLineCoords(rolesRef.current[activeRole.name], skillsRef.current[skill]);
+        // console.log(rolesRef.current)
+  //       return calculateLineCoords(rolesRef.current[activeRole.name], skillsRef.current[skill]);
   //     }); console.log(coords)
   //     setLineCoords(coords);
-    }
-
+  // console.log(activeRole?.mainSkills.includes(skill)) 
+    // }
+// console.log(rolesRef.current[activeRole.name])
+console.log(skillsRef.current)
   }, [activeRole]);
 
   function mapSkillsToProfessions(professions) {
@@ -204,6 +206,7 @@ const App = () => {
 
           {prof.map((skill, index) => (
             <SkillCircle
+            
               i={index}
               skill={skill}
               n={prof.length}
