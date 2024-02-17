@@ -94,4 +94,4 @@ export const yourData = [
     ],
     otherSkills: ["Figma", "Sketch", "Shopify"],
   },
-]
+];

@@ -82,6 +82,13 @@ const App = () => {
         }
         // allSkills.add(skill); // Добавляем каждый навык в Set, автоматически убирая дубликаты
       });
+      profession.otherSkills.forEach((skill) => {
+        if (skill === translit(skill)) {
+          console.log(skill);
+          allSkills.add(skill); // Добавляем каждый навык в Set, автоматически убирая дубликаты
+        }
+        // allSkills.add(skill); // Добавляем каждый навык в Set, автоматически убирая дубликаты
+      });
     });
 
     return Array.from(allSkills); // Преобразуем Set обратно в массив и возвращаем его
@@ -109,23 +116,28 @@ const App = () => {
   // Update line coordinates when activeRole changes
   useEffect(() => {
     if (activeRole) {
-      const coords = activeRole.mainSkills.map((skill) => {
+      const coords = activeRole.mainSkills?.map((skill) => {
         return calculateLineCoords(
-          rolesRef.current[activeRole.name],
+          rolesRef.current[activeRole?.name],
           skillsRef.current[translit(skill)],
           "#FF7A00"
         );
       });
-      const coordsOther = activeRole.otherSkills.map((skill) => {
+      // console.log(coords)
+      setLineCoords(coords);
+   
+      const coordsOther = activeRole?.otherSkills?.map((skill) => {
         return calculateLineCoords(
-          rolesRef.current[activeRole.name],
-          skillsRef.current[translit(skill)],
-
+          rolesRef?.current[activeRole?.name],
+          skillsRef?.current[translit(skill)],
+   
           "#8F59B9"
         );
-      });
-      setLineCoords(coords);
-      setLineCoordsOther(coordsOther);
+       
+      
+    });
+    // console.log(coordsOther)
+    setLineCoordsOther(coordsOther);
     }
   }, [activeRole]);
 
@@ -133,7 +145,7 @@ const App = () => {
     <div className="diagram-container">
       <svg className="lines" width="100%" height="100%">
         <g>
-          {lineCoords.map((coord, index) => (
+          {lineCoords?.map((coord, index) => (
             <path
               key={index}
               d={coord}
@@ -146,7 +158,7 @@ const App = () => {
       </svg>
       <svg className="lines" width="100%" height="100%">
         <g>
-          {lineCoordsOther.map((coord, index) => (
+          {lineCoordsOther?.map((coord, index) => (
             <path
               key={index}
               d={coord}
