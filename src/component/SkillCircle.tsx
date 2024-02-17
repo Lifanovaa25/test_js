@@ -52,7 +52,7 @@ const SkillCircle = forwardRef<HTMLDivElement, SkillCircleProps>(
         style={{
           position: "relative", // Добавлено для корректного позиционирования
           top: `${positionY(i, n, 100, 20)}px`,
-          left: `${positionX(i, n, 120, -20)}px`,
+          left: `${positionX(i, n, 100, -40)}px`,
         }}
       >
         {skill}

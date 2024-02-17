@@ -50,7 +50,7 @@ const RoleCircle = forwardRef<HTMLDivElement, RoleCircleProps>(({ role, i, n, on
       className="name"
       style={{
         top: `${positionX(i, n, 120, 10)}px`,
-        left: ` ${positionY(i, n, 120, -20)}px`,
+        left: ` ${positionY(i, n, 120, -40)}px`,
       }}
     >
       {role.name}

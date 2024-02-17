@@ -10,7 +10,7 @@ export const calculateLineCoords = (
   const bBox = b.getBoundingClientRect();
   const col = color;
   const start ={x: aBox.left - 240 + aBox.width / 2,y: aBox.top - 110 + aBox.height / 2}
-  const end = {x:bBox.left - 150 + bBox.width / 2,y: bBox.top - 130 + bBox.height / 2}
+  const end = {x:bBox.left - 260 + bBox.width / 2,y: bBox.top - 160 + bBox.height / 2}
   const center = {
     x: (start.x + end.x) / 2,
     y: (start.y + end.y) / 2,

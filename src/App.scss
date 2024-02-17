@@ -42,6 +42,8 @@
   line-height: 13.28px;
   position: absolute;
   width: 80px;
+  padding: 3px 5px;
+  text-align: right;
 }
 .skill {
   position: absolute;
@@ -59,6 +61,7 @@
 
   .skill_name{
   color:  #3A3A3A;
+
   }
 }
 .role-circl {
@@ -72,6 +75,12 @@
   z-index: 9;
 }
 .role-circl.active {
+  .name {
+    padding: 3px 5px;
+    background: linear-gradient(0deg, #F4F4F4, #F4F4F4),
+linear-gradient(0deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5));
+
+  }
   background: #00a372;
   &::after {
     content: "";
@@ -101,6 +110,9 @@
   top: 25%;
 }
 .lines {
+  position: absolute;
+  left: 0;
+  top: 0;
   g{
     path {
       fill:transparent !important;

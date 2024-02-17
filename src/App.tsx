@@ -33,7 +33,7 @@ function translit(word) {
     // 'Э': 'E',    'Ю': 'Yu',   'Я': 'Ya'
 
     // C: "С",
-    'С':'C'
+    С: "C",
   };
 
   for (var i = 0; i < word.length; i++) {
@@ -76,10 +76,9 @@ const App = () => {
 
     professions.forEach((profession) => {
       profession.mainSkills.forEach((skill) => {
-        if(skill === translit(skill)){
-          console.log(skill)
-        allSkills.add(skill); // Добавляем каждый навык в Set, автоматически убирая дубликаты
-
+        if (skill === translit(skill)) {
+          console.log(skill);
+          allSkills.add(skill); // Добавляем каждый навык в Set, автоматически убирая дубликаты
         }
         // allSkills.add(skill); // Добавляем каждый навык в Set, автоматически убирая дубликаты
       });
@@ -102,6 +101,7 @@ const App = () => {
 
   //-====
   const [activeRole, setActiveRole] = useState<Role | null>(null);
+  const [lineCoordsOther, setLineCoordsOther] = useState<Coord[]>([]);
   const [lineCoords, setLineCoords] = useState<Coord[]>([]);
   const rolesRef = useRef<{ [key: string]: HTMLDivElement }>({});
   const skillsRef = useRef<{ [key: string]: HTMLDivElement }>({});
@@ -112,19 +112,20 @@ const App = () => {
       const coords = activeRole.mainSkills.map((skill) => {
         return calculateLineCoords(
           rolesRef.current[activeRole.name],
-          skillsRef.current[skill],
+          skillsRef.current[translit(skill)],
           "#FF7A00"
         );
       });
-      // const coordsP = activeRole.otherSkills.map((skill) => {
-      //   return calculateLineCoords(
-      //     rolesRef.current[activeRole.name],
-      //     skillsRef.current[skill],
-      //     '#8F59B9'
-      //   );
-      // });
+      const coordsOther = activeRole.otherSkills.map((skill) => {
+        return calculateLineCoords(
+          rolesRef.current[activeRole.name],
+          skillsRef.current[translit(skill)],
+
+          "#8F59B9"
+        );
+      });
       setLineCoords(coords);
-      // setLineCoords(coordsP);
+      setLineCoordsOther(coordsOther);
     }
   }, [activeRole]);
 
@@ -141,7 +142,20 @@ const App = () => {
               strokeWidth="2"
             />
           ))}
-        </g>{" "}
+        </g>
+      </svg>
+      <svg className="lines" width="100%" height="100%">
+        <g>
+          {lineCoordsOther.map((coord, index) => (
+            <path
+              key={index}
+              d={coord}
+              stroke="#8F59B9"
+              fill="transporant"
+              strokeWidth="2"
+            />
+          ))}
+        </g>
       </svg>
       <div className="inner-circle">
         {rolesData.map((role, id) => (
