@@ -2,136 +2,53 @@ import React, { useEffect, useRef, useState } from "react";
 import "./App.scss";
 import RoleCircle from "./component/RoleCircle";
 import SkillCircle from "./component/SkillCircle";
+import { calculateLineCoords } from "./utils/sharedFunctions";
+import { yourData } from "./data/data";
+// import {Role} from './@types/types';
 
-const calculateLineCoords = (a, b) => {
-  const aBox = a.getBoundingClientRect();
-  const bBox = b.getBoundingClientRect();
+interface Role {
+  name: string;
+  mainSkills: string[];
+  otherSkills: string[];
+  isActive?: boolean;
+}
+function translit(word) {
+  var answer = "";
+  var converter = {
+    // 'C':'С',
+    // 'Q': 'a',    'б': 'b',    'в': 'v',    'г': 'g',    'д': 'd',
+    // 'е': 'e',    'ё': 'e',    'ж': 'zh',   'з': 'z',    'и': 'i',
+    // 'й': 'y',    'к': 'k',    'л': 'l',    'м': 'm',    'н': 'n',
+    // 'о': 'o',    'п': 'p',    'р': 'r',    'с': 'c',    'т': 't',
+    // 'у': 'u',    'ф': 'f',    'х': 'h',    'ц': 'c',    'ч': 'ch',
+    // 'ш': 'sh',   'щ': 'sch',  'ь': '',     'ы': 'y',    'ъ': '',
+    // 'э': 'e',    'ю': 'yu',   'я': 'ya',
 
-  return {
-    x1: aBox.left + aBox.width / 2,
-    y1: aBox.top + aBox.height / 2,
-    x2: bBox.left + bBox.width / 2,
-    y2: bBox.top + bBox.height / 2,
+    // 'А': 'A',    'Б': 'B',    'В': 'V',    'Г': 'G',    'Д': 'D',
+    // 'Е': 'E',    'Ё': 'E',    'Ж': 'Zh',   'З': 'Z',    'И': 'I',
+    // 'Й': 'Y',    'К': 'K',    'Л': 'L',    'М': 'M',    'Н': 'N',
+    // 'О': 'O',    'П': 'P',    'Р': 'R',    'С': 'C',    'Т': 'T',
+    // 'У': 'U',    'Ф': 'F',    'Х': 'H',    'Ц': 'C',    'Ч': 'Ch',
+    // 'Ш': 'Sh',   'Щ': 'Sch',  'Ь': '',     'Ы': 'Y',    'Ъ': '',
+    // 'Э': 'E',    'Ю': 'Yu',   'Я': 'Ya'
+
+    // C: "С",
+    'С':'C'
   };
-};
 
+  for (var i = 0; i < word.length; i++) {
+    if (converter[word[i]] == undefined) {
+      answer += word[i];
+    } else {
+      answer += converter[word[i]];
+    }
+  }
+  // console.log(answer)
+  return answer;
+}
 const App = () => {
-  const Data = [
-    {
-      name: "Финансовый аналитик",
-      mainSkills: ["Excel", "SQL", "VBA", "1C"],
-      otherSkills: ["Power BI", "Python"],
-    },
-    {
-      name: "Предприниматель",
-      mainSkills: ["1C", "Excel", "Power BI"],
-      otherSkills: [
-        "Google Analytics",
-        "Яндекс.Метрика",
-        "Python",
-        "SQL",
-        "Tilda",
-      ],
-    },
-    {
-      name: "Продуктовый дизайнер",
-      mainSkills: [
-        "Figma",
-        "Sketch",
-        "Illustrator",
-        "Photoshop",
-        "Principle",
-        "Tilda",
-      ],
-      otherSkills: ["Shopify", "Protopie", "Cinema 4D"],
-    },
-    {
-      name: "Менеджер проекта",
-      mainSkills: [
-        "Visio",
-        "1C",
-        "Google Analytics",
-        "Яндекс.Метрика",
-        "Python",
-        "SQL",
-        "Tilda",
-      ],
-      otherSkills: ["Figma", "Sketch", "Shopify"],
-    },
-    {
-      name: "Финансовый менеджер",
-      mainSkills: ["1C", "Excel", "Power BI"],
-      otherSkills: ["BPMN"],
-    },
-    {
-      name: "Руководитель финансового департамента компании",
-      mainSkills: ["Sketch", "Figma"],
-      otherSkills: ["Shopify", "HQL"],
-    },
-
-    {
-      name: "Продуктовый аналитик",
-      mainSkills: [
-        "Google Analytics",
-        "Яндекс.Метрика",
-        "SQL",
-        "Power BI",
-        "Python",
-        "Excel",
-      ],
-      otherSkills: ["HQL", "Tableau", "R", "Machine learning"],
-    },
-
-    {
-      name: "Руководитель финансового продукта",
-      mainSkills: ["Visio"],
-      otherSkills: ["Python"],
-    },
-    {
-      name: "Менеджер по маркетингу",
-      mainSkills: [
-        "Google Analytics",
-        "Яндекс.Метрика",
-        "Google Ads",
-        "Ahrefs",
-        "Главред",
-        "My Target",
-      ],
-      otherSkills: ["Tilda", "Photoshop", "Xenu", "Python"],
-    },
-
-    {
-      name: "Менеджер по цифровой трансформации",
-      mainSkills: [
-        "Visio",
-        "Google Analytics",
-        "Яндекс.Метрика",
-        "Python",
-        "SQL",
-        "Tilda",
-      ],
-      otherSkills: ["Figma", "Sketch", "Shopify"],
-    },
-  ];
-
-  const [rolesData, setRolesData] = useState(Data); // replace Data with the data you provided
-  const [activeRole, setActiveRole] = useState(null);
-
-  const [lineCoords, setLineCoords] = useState({});
-  const rolesRef = useRef({});
-  const skillsRef = useRef({});
-  useEffect(() => {
-    // if (activeRole) {
-  //     const coords = activeRole?.mainSkills.map(skill => {
-        // console.log(rolesRef.current)
-  //       return calculateLineCoords(rolesRef.current[activeRole.name], skillsRef.current[skill]);
-  //     }); console.log(coords)
-  //     setLineCoords(coords);
-  // console.log(activeRole?.mainSkills.includes(skill)) 
-    // }
-// console.log(rolesRef.current[activeRole.name])
-console.log(skillsRef.current)
-  }, [activeRole]);
+  const [rolesData, setRolesData] = useState(yourData); // replace yourData with the data you provided
+  const [Item, mainSkills, otherSkills] = yourData;
 
   function mapSkillsToProfessions(professions) {
     const skillsMap = {};
@@ -150,6 +67,7 @@ console.log(skillsRef.current)
         }
       });
     });
+    // console.log(skillsMap);
     return skillsMap;
   }
 
@@ -158,20 +76,23 @@ console.log(skillsRef.current)
 
     professions.forEach((profession) => {
       profession.mainSkills.forEach((skill) => {
+        if(skill === translit(skill)){
+          console.log(skill)
         allSkills.add(skill); // Добавляем каждый навык в Set, автоматически убирая дубликаты
+
+        }
+        // allSkills.add(skill); // Добавляем каждый навык в Set, автоматически убирая дубликаты
       });
     });
 
     return Array.from(allSkills); // Преобразуем Set обратно в массив и возвращаем его
   }
-  const allSkills = mapSkillsToProfessions(Data);
-  const prof = getUniqueSkills(Data);
+  const allSkills = mapSkillsToProfessions(yourData);
+  const prof = getUniqueSkills(yourData);
 
   const handleRoleClick = (role) => {
     setActiveRole(role);
-    rolesRef.current[role.name] = role.name;
-    // skillsRef.current[role.name] = [role.name]
-    // console.log(skillsRef)
+    // Update rolesData to set the active state for the selected role
     const updatedRoles = rolesData.map((r) => ({
       ...r,
       isActive: r.name === role.name,
@@ -179,46 +100,80 @@ console.log(skillsRef.current)
     setRolesData(updatedRoles);
   };
 
-  return (
-    <>
-      {/* <svg className="lines" width="100%" height="100%">
-        {lineCoords?.map((coord, index) => (
-          <line key={index} {...coord} stroke="black" />
-        ))}
-      </svg> */}
-      <div className="diagram-container">
-        <div className="inner-circle">
-          {rolesData.map((role, id) => (
-            <RoleCircle
-              // ref={(el) => (rolesRef.current[role.name] = el)}
+  //-====
+  const [activeRole, setActiveRole] = useState<Role | null>(null);
+  const [lineCoords, setLineCoords] = useState<Coord[]>([]);
+  const rolesRef = useRef<{ [key: string]: HTMLDivElement }>({});
+  const skillsRef = useRef<{ [key: string]: HTMLDivElement }>({});
 
-              key={role.name}
-              role={role}
-              i={id}
-              n={rolesData.length}
-              onRoleClick={handleRoleClick}
+  // Update line coordinates when activeRole changes
+  useEffect(() => {
+    if (activeRole) {
+      const coords = activeRole.mainSkills.map((skill) => {
+        return calculateLineCoords(
+          rolesRef.current[activeRole.name],
+          skillsRef.current[skill],
+          "#FF7A00"
+        );
+      });
+      // const coordsP = activeRole.otherSkills.map((skill) => {
+      //   return calculateLineCoords(
+      //     rolesRef.current[activeRole.name],
+      //     skillsRef.current[skill],
+      //     '#8F59B9'
+      //   );
+      // });
+      setLineCoords(coords);
+      // setLineCoords(coordsP);
+    }
+  }, [activeRole]);
+
+  return (
+    <div className="diagram-container">
+      <svg className="lines" width="100%" height="100%">
+        <g>
+          {lineCoords.map((coord, index) => (
+            <path
+              key={index}
+              d={coord}
+              stroke="#FF7A00"
+              fill="transporant"
+              strokeWidth="2"
             />
           ))}
-        </div>
-        <div className="outer-circle">
-          {/* {rolesData
+        </g>{" "}
+      </svg>
+      <div className="inner-circle">
+        {rolesData.map((role, id) => (
+          <RoleCircle
+            key={role.name}
+            role={role}
+            i={id}
+            n={rolesData.length}
+            onRoleClick={handleRoleClick}
+            ref={(el) => (rolesRef.current[role.name] = el!)}
+          />
+        ))}
+      </div>
+      <div className="outer-circle">
+        {/* {rolesData
           .flatMap((role) => role.mainSkills.concat(role.otherSkills)) */}
 
-          {prof.map((skill, index) => (
-            <SkillCircle
-            
-              i={index}
-              skill={skill}
-              n={prof.length}
-              isActive={
-                activeRole?.mainSkills.includes(skill) ||
-                activeRole?.otherSkills.includes(skill)
-              }
-            />
-          ))}
-        </div>
+        {prof.map((skill, index) => (
+          <SkillCircle
+            i={index}
+            key={index}
+            ref={(el) => (skillsRef.current[skill] = el!)}
+            skill={skill}
+            n={prof.length}
+            isActive={
+              activeRole?.mainSkills.includes(skill) ||
+              activeRole?.otherSkills.includes(skill)
+            }
+          />
+        ))}
       </div>
-    </>
+    </div>
   );
 };
 

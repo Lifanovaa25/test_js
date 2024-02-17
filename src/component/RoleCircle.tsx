@@ -1,5 +1,15 @@
-import React, { useRef } from "react";
+import React, { forwardRef } from "react";
+import './../@types/types'
 
+interface RoleCircleProps {
+  role: Role;
+  i: number; // или id, если это более подходящее название
+  n: number;
+  onRoleClick: (role: Role) => void;
+}
+
+
+const N = 6;
 const IMG_SIZE = 13.5;
 function positionX(i, n, r, offset) {
   var offset = offset + 0;
@@ -26,33 +36,25 @@ function positionY(i, n, r, offset) {
 
   return y;
 }
-const RoleCircle = ({ role, onRoleClick, i, n }) => {
-  const rolesRef = useRef({});
-
-  return (
-    <>
-      <div
-          ref={(el) => (rolesRef.current[role.name] = el)}
-
-        style={{
-          top: `${positionX(i, n, 256, 122)}px`,
-          left: ` ${positionY(i, n, 256, 122)}px`,
-        }}
-        className={role.isActive ? "active  role-circl" : " role-circl"}
-        onClick={() => onRoleClick(role)}
-      >
-        <div
-          // ref={(el) => (rolesRef.current[role.name] = el)}
-          className="name"
-          style={{
-            top: `${positionX(i, n, 110, 10)}px`,
-            left: ` ${positionY(i, n, 110, -30)}px`,
-          }}
-        >
-          {role.name}
-        </div>
-      </div>
-    </>
-  );
-};
+const RoleCircle = forwardRef<HTMLDivElement, RoleCircleProps>(({ role, i, n, onRoleClick }, ref) => {
+  return <div
+    style={{
+      top: `${positionX(i, n, 256, 122)}px`,
+      left: ` ${positionY(i, n, 256, 122)}px`,
+    }}
+    className={role.isActive ? "active  role-circl" : " role-circl"}
+    onClick={() => onRoleClick(role)}
+    ref={ref}
+  >
+    <div
+      className="name"
+      style={{
+        top: `${positionX(i, n, 120, 10)}px`,
+        left: ` ${positionY(i, n, 120, -20)}px`,
+      }}
+    >
+      {role.name}
+    </div>
+  </div>
+});
 export default RoleCircle;

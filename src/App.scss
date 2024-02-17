@@ -3,7 +3,6 @@
   src:url(./assets/font/ALSHauss-Black.woff2);
 }
 
-
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -13,7 +12,7 @@
 .diagram-container {
   position: relative;
   width: 533px;
-    height: 533px;
+  height: 533px;
 }
 .circle,
 .outer-circle {
@@ -24,12 +23,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
+  // position: relative;
   position: absolute;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    // top: 25%;
+  // left: 0;
+  // right: 0;
+  // margin: 0 auto;
+  top: 0;
 }
 .block {
   width: 50%;
@@ -74,17 +73,15 @@
 }
 .role-circl.active {
   background: #00a372;
-  transition: all .8s;
   &::after {
     content: "";
     width: 33.71px;
     height: 33.71px;
     position: absolute;
-   top: -5px;
-    left: -5px;
+    top: -6px;
+    left: -6px;
     border-radius: 50%;
-    border: 1px solid #00A372;
-    box-sizing: border-box;
+    border: 1px solid #00a372;
   }
 }
 .min_circle,
@@ -98,12 +95,18 @@
   justify-content: center;
   position: relative;
   position: absolute;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    top: 25%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  top: 25%;
 }
-
+.lines {
+  g{
+    path {
+      fill:transparent !important;
+    }
+  }
+}
 .role-circle {
   /* styles for the role circles */
 }
