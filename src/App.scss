@@ -117,9 +117,22 @@
   g{
     path {
       fill:transparent !important;
+   
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+        animation: Lines 5s linear forwards;
+      
+      
     }
   }
 }
+
+@keyframes Lines {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
 .role-circle {
   /* styles for the role circles */
 }
