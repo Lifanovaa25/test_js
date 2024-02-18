@@ -67,7 +67,6 @@ const App = () => {
         }
       });
     });
-    // console.log(skillsMap);
     return skillsMap;
   }
 
@@ -77,14 +76,12 @@ const App = () => {
     professions.forEach((profession) => {
       profession.mainSkills.forEach((skill) => {
         if (skill === translit(skill)) {
-          console.log(skill);
           allSkills.add(skill); // Добавляем каждый навык в Set, автоматически убирая дубликаты
         }
         // allSkills.add(skill); // Добавляем каждый навык в Set, автоматически убирая дубликаты
       });
       profession.otherSkills.forEach((skill) => {
         if (skill === translit(skill)) {
-          console.log(skill);
           allSkills.add(skill); // Добавляем каждый навык в Set, автоматически убирая дубликаты
         }
         // allSkills.add(skill); // Добавляем каждый навык в Set, автоматически убирая дубликаты
@@ -105,7 +102,7 @@ const App = () => {
     }));
     setRolesData(updatedRoles);
   };
-
+  
   //-====
   const [activeRole, setActiveRole] = useState<Role | null>(null);
   const [lineCoordsOther, setLineCoordsOther] = useState<Coord[]>([]);
@@ -191,7 +188,7 @@ const App = () => {
             key={index}
             ref={(el) => (skillsRef.current[skill] = el!)}
             skill={skill}
-            n={prof.length}
+                        n={prof.length}
             isActive={
               activeRole?.mainSkills.includes(skill) ||
               activeRole?.otherSkills.includes(skill)

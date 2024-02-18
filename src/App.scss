@@ -77,8 +77,9 @@
 .role-circl.active {
   .name {
     padding: 3px 5px;
-    background: linear-gradient(0deg, #F4F4F4, #F4F4F4),
-linear-gradient(0deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5));
+    border-radius: 6px;
+    border: 1px solid #F4F4F4;
+    background: #FFFFFF80;
 
   }
   background: #00a372;

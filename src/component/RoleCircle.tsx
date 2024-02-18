@@ -39,8 +39,8 @@ function positionY(i, n, r, offset) {
 const RoleCircle = forwardRef<HTMLDivElement, RoleCircleProps>(({ role, i, n, onRoleClick }, ref) => {
   return <div
     style={{
-      top: `${positionX(i, n, 256, 122)}px`,
-      left: ` ${positionY(i, n, 256, 122)}px`,
+      top: `${positionX(i, n, 260, 122)}px`,
+      left: ` ${positionY(i, n, 260, 122)}px`,
     }}
     className={role.isActive ? "active  role-circl" : " role-circl"}
     onClick={() => onRoleClick(role)}
