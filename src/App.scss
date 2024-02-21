@@ -1,6 +1,6 @@
 @font-face {
-  font-family:'ALSHauss';
-  src:url(./assets/font/ALSHauss-Black.woff2);
+  font-family: "ALSHauss";
+  src: url(./assets/font/ALSHauss-Black.woff2);
 }
 
 #root {
@@ -54,14 +54,13 @@
   background: #ffd4ad;
 }
 .skill_name {
-  color: #ADADAD;
+  color: #adadad;
 }
 .skill.active {
-  background: #FF7A00;
+  background: #ff7a00;
 
-  .skill_name{
-  color:  #3A3A3A;
-
+  .skill_name {
+    color: #3a3a3a;
   }
 }
 .role-circl {
@@ -78,9 +77,8 @@
   .name {
     padding: 3px 5px;
     border-radius: 6px;
-    border: 1px solid #F4F4F4;
-    background: #FFFFFF80;
-
+    border: 1px solid #f4f4f4;
+    background: #ffffff80;
   }
   background: #00a372;
   &::after {
@@ -114,25 +112,32 @@
   position: absolute;
   left: 0;
   top: 0;
-  g{
+  g {
     path {
-      fill:transparent !important;
-   
-        stroke-dasharray: 1000;
-        stroke-dashoffset: 1000;
-        animation: Lines 5s linear forwards;
-      
-      
+      fill: transparent !important;
+
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: Lines 5s linear forwards;
     }
   }
 }
-
+.animate_name {
+   animation: animationTxt 3s linear forwards;
+}
 @keyframes Lines {
   to {
     stroke-dashoffset: 0;
   }
 }
-
+@keyframes animationTxt {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 .role-circle {
   /* styles for the role circles */
 }

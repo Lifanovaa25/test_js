@@ -3,7 +3,8 @@ import "./App.scss";
 import RoleCircle from "./component/RoleCircle";
 import SkillCircle from "./component/SkillCircle";
 import { calculateLineCoords } from "./utils/sharedFunctions";
-import { yourData } from "./data/data";
+import { Data } from "./data/data";
+import Lines from "./component/Line";
 // import {Role} from './@types/types';
 
 interface Role {
@@ -47,8 +48,16 @@ function translit(word) {
   return answer;
 }
 const App = () => {
-  const [rolesData, setRolesData] = useState(yourData); // replace yourData with the data you provided
-  const [Item, mainSkills, otherSkills] = yourData;
+  const skillsMap = mapSkillsToProfessions(Data);
+  const prof = getUniqueSkills(Data);
+  const [rolesData, setRolesData] = useState(Data); // replace Data with the data you provided
+  const [Item, mainSkills, otherSkills] = Data;
+  const [activeRole, setActiveRole] = useState<Role | null>(null);
+  const [lineCoordsOther, setLineCoordsOther] = useState<Coord[]>([]);
+  const [lineCoords, setLineCoords] = useState<Coord[]>([]);
+  const [allSkillsAr, setAllSkills] = useState(prof);
+  const rolesRef = useRef<{ [key: string]: HTMLDivElement }>({});
+  const skillsRef = useRef<{ [key: string]: HTMLDivElement }>({});
 
   function mapSkillsToProfessions(professions) {
     const skillsMap = {};
@@ -67,6 +76,7 @@ const App = () => {
         }
       });
     });
+
     return skillsMap;
   }
 
@@ -74,8 +84,9 @@ const App = () => {
     const allSkills = new Set(); // Используем Set для хранения уникальных навыков
 
     professions.forEach((profession) => {
-      profession.mainSkills.forEach((skill) => {
-        if (skill === translit(skill)) { // Проверка на транслит
+      profession.mainSkills.forEach((skill, index) => {
+        if (skill === translit(skill)) {
+          // Проверка на транслит
           allSkills.add(skill); // Добавляем каждый навык в Set, автоматически убирая дубликаты
         }
       });
@@ -85,11 +96,9 @@ const App = () => {
         }
       });
     });
-
+    // setAllSkills(Array.from(allSkills))
     return Array.from(allSkills); // Преобразуем Set обратно в массив и возвращаем его
   }
-  const allSkills = mapSkillsToProfessions(yourData);
-  const prof = getUniqueSkills(yourData);
 
   const handleRoleClick = (role) => {
     setActiveRole(role);
@@ -100,45 +109,78 @@ const App = () => {
     }));
     setRolesData(updatedRoles);
   };
-  
+  function newCircleSkills(activeRole) {
+    setAllSkills([]);
+
+    var newSkills = [];
+
+    activeRole.mainSkills.map((skill) => {
+      // удаляем элемент из массива и добавляем в начало
+      const index = allSkillsAr.indexOf(skill);
+      if (index > -1) {
+        allSkillsAr.splice(index, 1);
+      }
+      if (skill === translit(skill)) {
+        newSkills.push(skill);
+      }
+    });
+
+    activeRole.otherSkills.map((skill) => {
+      // удаляем элемент из массива и добавляем в начало
+      const index = allSkillsAr.indexOf(skill);
+      if (index > -1) {
+        allSkillsAr.splice(index, 1);
+      }
+      if (skill === translit(skill)) {
+        newSkills.push(skill);
+      }
+    });
+
+    allSkillsAr.forEach((skill) => {
+      if (skill === translit(skill) && skill !== newSkills[skill]) {
+        newSkills.push(skill); // Добавляем каждый навык в Set, автоматически убирая дубликаты
+      }
+    });
+
+    // setAllSkills(newSkills);
+    return Array.from(newSkills);
+  }
   //-====
-  const [activeRole, setActiveRole] = useState<Role | null>(null);
-  const [lineCoordsOther, setLineCoordsOther] = useState<Coord[]>([]);
-  const [lineCoords, setLineCoords] = useState<Coord[]>([]);
-  const rolesRef = useRef<{ [key: string]: HTMLDivElement }>({});
-  const skillsRef = useRef<{ [key: string]: HTMLDivElement }>({});
 
   // Update line coordinates when activeRole changes
   useEffect(() => {
     if (activeRole) {
+      const newArr = newCircleSkills(activeRole);
+      setAllSkills(newArr);
+      // console.log(newArr)
       const coords = activeRole.mainSkills?.map((skill) => {
+        // console.log(skillsMap[skill])
+
         return calculateLineCoords(
           rolesRef.current[activeRole?.name],
           skillsRef.current[translit(skill)],
           "#FF7A00"
         );
       });
-      // console.log(coords)
       setLineCoords(coords);
-   
+      // setAllSkills(prof.concat( activeRole?.otherSkills))
+
       const coordsOther = activeRole?.otherSkills?.map((skill) => {
         return calculateLineCoords(
           rolesRef?.current[activeRole?.name],
           skillsRef?.current[translit(skill)],
-   
+
           "#8F59B9"
         );
-       
-      
-    });
-    // console.log(coordsOther)
-    setLineCoordsOther(coordsOther);
+      });
+      // console.log(coordsOther)
+      setLineCoordsOther(coordsOther);
     }
   }, [activeRole]);
 
   return (
     <div className="diagram-container">
-      <svg className="lines" width="100%" height="100%">
+      {/* <svg className="lines" width="100%" height="100%">
         <g>
           {lineCoords?.map((coord, index) => (
             <path
@@ -163,7 +205,8 @@ const App = () => {
             />
           ))}
         </g>
-      </svg>
+      </svg> */}
+      <Lines lineCoordsOther={lineCoordsOther} lineCoords={lineCoords}/>
       <div className="inner-circle">
         {rolesData.map((role, id) => (
           <RoleCircle
@@ -180,13 +223,13 @@ const App = () => {
         {/* {rolesData
           .flatMap((role) => role.mainSkills.concat(role.otherSkills)) */}
 
-        {prof.map((skill, index) => (
+        {allSkillsAr.map((skill, index) => (
           <SkillCircle
             i={index}
             key={index}
             ref={(el) => (skillsRef.current[skill] = el!)}
             skill={skill}
-            n={prof.length}
+            n={allSkillsAr.length}
             isActive={
               activeRole?.mainSkills.includes(skill) ||
               activeRole?.otherSkills.includes(skill)

@@ -4,6 +4,7 @@ interface Coord {
   y1:  string | number;
   x2: string |  number;
   y2: string |  number;
+  coord: string;
 }
 
 interface Role {
