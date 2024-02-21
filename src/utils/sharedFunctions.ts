@@ -10,7 +10,7 @@ export const calculateLineCoords = (
   const bBox = b.getBoundingClientRect();
   const col = color;
   const start ={x: aBox.left - 240 + aBox.width / 2,y: aBox.top - 110 + aBox.height / 2}
-  const end = {x:bBox.left - 260 + bBox.width / 2,y: bBox.top - 160 + bBox.height / 2}
+  const end = {x:bBox.left - 240 + bBox.width / 2,y: bBox.top - 100 + bBox.height / 2}
   const center = {
     x: (start.x + end.x) / 2,
     y: (start.y + end.y) / 2,
@@ -20,16 +20,16 @@ export const calculateLineCoords = (
     x: start.x + Math.min(
         distance(start, end),
         Math.abs(end.y - start.y) / 2,
-        150
+        50
     ),
     y: start.y,
 };
 
-return `
+return (`
     M ${start.x},${start.y} 
     Q ${controlPoint.x}, ${controlPoint.y} ${center.x},${center.y} 
     T ${end.x},${end.y}
-  `;
+  `);
 
 };
 function distance(start: Point, end: Point)
