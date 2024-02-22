@@ -1,4 +1,5 @@
-import React, { forwardRef } from "react";
+import React from "react";
+import { forwardRef } from "react";
 
 interface SkillCircleProps {
   skill: string;
@@ -8,27 +9,20 @@ interface SkillCircleProps {
 }
 
 const IMG_SIZE = 13.5;
-function positionX(i, n, r, offset) {
+function positionX(i: number, n: number, r: number, offset: number) {
   var offset = offset + 0;
-  var a = 0;
   var x = 0;
-  var y = 0;
   const radius = r / 2;
-  const radian = i * ((2 * Math.PI) / n) - 0.5 * Math.PI;
+  const radian = i * ((2 * Math.PI) / n) - 0.6 * Math.PI;
   x = radius * Math.cos(radian) - IMG_SIZE / 2 + offset;
-  y = radius * Math.sin(radian) - IMG_SIZE / 2;
-  // }
+
   return x;
 }
-function positionY(i, n, r, offset) {
+function positionY(i: number, n: number, r: number, offset: number) {
   var offset = offset + 0;
-
-  var a = 0;
-  var x = 0;
   var y = 0;
   const radius = r / 2;
-  const radian = i * ((2 * Math.PI) / n) - 0.5 * Math.PI;
-  x = radius * Math.cos(radian) - IMG_SIZE / 2;
+  const radian = i * ((2 * Math.PI) / n) - 0.6 * Math.PI;
   y = radius * Math.sin(radian) - IMG_SIZE / 2 + offset;
 
   return y;
@@ -36,7 +30,9 @@ function positionY(i, n, r, offset) {
 
 const SkillCircle = forwardRef<HTMLDivElement, SkillCircleProps>(
   ({ skill, isActive, i, n }, ref) => (
+    
     <div
+
       style={{
         position: "absolute", // Добавлено для корректного позиционирования
         top: `${positionY(i, n, 533, 260)}px`,
@@ -49,8 +45,8 @@ const SkillCircle = forwardRef<HTMLDivElement, SkillCircleProps>(
         className={isActive ? " animate_name name" : "name"}
         style={{
           position: "relative", // Добавлено для корректного позиционирования
-          top: `${positionY(i, n, 100, 20)}px`,
-          left: `${positionX(i, n, 100, -40)}px`,
+          top: `${positionY(i, n, 120, 20)}px`,
+          left: `${positionX(i, n, 120, -50)}px`,
         }}
       >
         {skill}

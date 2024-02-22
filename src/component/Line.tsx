@@ -1,8 +1,8 @@
 import React,{FC} from "react";
 import './../@types/types'
 interface IProps {
-  lineCoords: string;
-  lineCoordsOther: string;
+  lineCoords: [] ;
+  lineCoordsOther: [];
 
 }
 const Lines: FC<IProps> =({lineCoords,lineCoordsOther}) => {

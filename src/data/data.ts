@@ -1,7 +1,8 @@
 export const Data = [
   {
     name: "Финансовый аналитик",
-    mainSkills: ["Excel", "SQL", "VBA", "1С"],
+    // mainSkills: ["Excel", "SQL", "VBA", "1С"],
+    mainSkills: ["Excel", "SQL", "VBA", "1C"],
     otherSkills: ["Power BI", "Python"],
   },
   {
