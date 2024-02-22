@@ -72,6 +72,11 @@
   left: -572.69px;
   position: absolute;
   z-index: 9;
+  cursor: pointer;
+  &:hover{
+    background: #848383;
+
+  }
 }
 .role-circl.active {
   .name {
@@ -110,6 +115,7 @@
 }
 .lines {
   position: absolute;
+  // z-index: 99;
   left: 0;
   top: 0;
   g {
@@ -118,12 +124,12 @@
 
       stroke-dasharray: 1000;
       stroke-dashoffset: 1000;
-      animation: Lines 5s linear forwards;
+      animation: Lines 3s linear forwards;
     }
   }
 }
 .animate_name {
-   animation: animationTxt 3s linear forwards;
+   animation: animationTxt 2s linear forwards;
 }
 @keyframes Lines {
   to {
