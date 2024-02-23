@@ -4,15 +4,19 @@
 }
 
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  // max-width: 1280px;
+  // margin: 0 auto;
+  // padding: 2rem;
+  // text-align: center;
+  max-width: 700px;
 }
 .diagram-container {
   position: relative;
   width: 533px;
   height: 533px;
+  max-width: 533px;
+  max-height: 533px;
+  margin: 50px auto;
 }
 .circle,
 .outer-circle {
@@ -143,19 +147,4 @@
   to {
     opacity: 1;
   }
-}
-.role-circle {
-  /* styles for the role circles */
-}
-
-.role-circle.active {
-  /* styles for when the role circle is active */
-}
-
-.skill-circle {
-  /* styles for the skill circles */
-}
-
-.skill-circle.active {
-  /* styles for when the skill circle is active */
 }

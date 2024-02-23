@@ -3,24 +3,24 @@ import "./../@types/types";
 
 export const calculateLineCoords = (
   a: Element,
-  b: Element,
-  color: string
+  b: Element
 ): Coord => {
   const aBox = a.getBoundingClientRect();
   const bBox = b.getBoundingClientRect();
-  const col = color;
-  const start ={x: aBox.left - 240 + aBox.width / 2,y: aBox.top - 110 + aBox.height / 2}
-  const end = {x:bBox.left - 240 + bBox.width / 2,y: bBox.top - 100 + bBox.height / 2}
+  // const start ={x: aBox.left - 240 + aBox.width / 2,y: aBox.top - 110 + aBox.height / 2}
+  // const end = {x:bBox.left - 240 + bBox.width / 2,y: bBox.top - 100 + bBox.height / 2}
+    const start ={x: aBox.x - 80 ,y: aBox.y - 50 + aBox.height / 2}
+  const end = {x:bBox.x - 70,y: bBox.y - 40}
   const center = {
-    x: (start.x + end.x) / 2,
-    y: (start.y + end.y) / 2,
+    x: (start.x + end.x) / 2 - aBox.height / 2,
+    y: (start.y + end.y) / 2 ,
   };
-
+  console.log(aBox.y)
   const controlPoint = {
-    x: start.x + Math.min(
+    x: start.x  + Math.min(
         distance(start, end),
-        Math.abs(end.y - start.y) / 2,
-        50
+        Math.abs(bBox.y - aBox.y) / 2,
+        40
     ),
     y: start.y,
 };

@@ -158,8 +158,7 @@ const App = () => {
 
         return calculateLineCoords(
           rolesRef.current[activeRole?.name],
-          skillsRef.current[translit(skill)],
-          "#FF7A00"
+          skillsRef.current[skill]
         );
       });
       setLineCoords(coords);
@@ -168,9 +167,7 @@ const App = () => {
       const coordsOther = activeRole?.otherSkills?.map((skill) => {
         return calculateLineCoords(
           rolesRef?.current[activeRole?.name],
-          skillsRef?.current[translit(skill)],
-
-          "#8F59B9"
+          skillsRef?.current[skill]
         );
       });
       // console.log(coordsOther)
@@ -206,7 +203,7 @@ const App = () => {
           ))}
         </g>
       </svg> */}
-      <Lines lineCoordsOther={lineCoordsOther} lineCoords={lineCoords}/>
+      <Lines CoordsOther={lineCoordsOther} CoordsMain={lineCoords}/>
       <div className="inner-circle">
         {rolesData.map((role, id) => (
           <RoleCircle
