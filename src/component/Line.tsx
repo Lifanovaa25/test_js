@@ -1,14 +1,14 @@
 import React,{FC} from "react";
 import './../@types/types'
 interface IProps {
-  lineCoords: [] ;
-  lineCoordsOther: [];
+  CoordsMain: [] ;
+  CoordsOther: [];
 
 }
-const Lines: FC<IProps> =({lineCoords,lineCoordsOther}) => {
+const Lines: FC<IProps> =({CoordsMain,CoordsOther}) => {
   return (<><svg className="lines" width="100%" height="100%">
   <g>
-    {lineCoords?.map((coord, index) => (
+    {CoordsMain?.map((coord, index) => (
       <path
         key={index}
         d={coord}
@@ -21,7 +21,7 @@ const Lines: FC<IProps> =({lineCoords,lineCoordsOther}) => {
 </svg>
 <svg className="lines" width="100%" height="100%">
   <g>
-    {lineCoordsOther?.map((coord, index) => (
+    {CoordsOther?.map((coord, index) => (
       <path
         key={index}
         d={coord}
